@@ -1,12 +1,12 @@
 /*<simulation_settings>
-<ftestbench_cmd>quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off pwm_module -c pwm_module --vector_source="/home/dylan/git/pwm-module-verilog/Waveform.vwf" --testbench_file="/home/dylan/git/pwm-module-verilog/simulation/qsim/Waveform.vwf.vt"</ftestbench_cmd>
-<ttestbench_cmd>quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off pwm_module -c pwm_module --vector_source="/home/dylan/git/pwm-module-verilog/Waveform.vwf" --testbench_file="/home/dylan/git/pwm-module-verilog/simulation/qsim/Waveform.vwf.vt"</ttestbench_cmd>
+<ftestbench_cmd>quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off pwm_module -c pwm_module --vector_source="/home/dylan/git/pwm-module-verilog/Waveform1.vwf" --testbench_file="/home/dylan/git/pwm-module-verilog/simulation/qsim/Waveform1.vwf.vt"</ftestbench_cmd>
+<ttestbench_cmd>quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off pwm_module -c pwm_module --vector_source="/home/dylan/git/pwm-module-verilog/Waveform1.vwf" --testbench_file="/home/dylan/git/pwm-module-verilog/simulation/qsim/Waveform1.vwf.vt"</ttestbench_cmd>
 <fnetlist_cmd>quartus_eda --write_settings_files=off --simulation --functional=on --flatten_buses=off --tool=modelsim_oem --format=verilog --output_directory="/home/dylan/git/pwm-module-verilog/simulation/qsim/" pwm_module -c pwm_module</fnetlist_cmd>
 <tnetlist_cmd>quartus_eda --write_settings_files=off --simulation --functional=off --flatten_buses=off --timescale=1ps --tool=modelsim_oem --format=verilog --output_directory="/home/dylan/git/pwm-module-verilog/simulation/qsim/" pwm_module -c pwm_module</tnetlist_cmd>
 <modelsim_script>onerror {exit -code 1}
 vlib work
 vlog -work work pwm_module.vo
-vlog -work work Waveform.vwf.vt
+vlog -work work Waveform1.vwf.vt
 vsim -c -t 1ps -L fiftyfivenm_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate_ver -L altera_lnsim_ver work.pwm_module_vlg_vec_tst
 vcd file -direction pwm_module.msim.vcd
 vcd add -internal pwm_module_vlg_vec_tst/*
@@ -25,18 +25,11 @@ quit -f
 
 
 
-
-
-
-
-
-
-
 </modelsim_script>
 <modelsim_script_timing>onerror {exit -code 1}
 vlib work
 vlog -work work pwm_module.vo
-vlog -work work Waveform.vwf.vt
+vlog -work work Waveform1.vwf.vt
 vsim -novopt -c -t 1ps -L fiftyfivenm_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate_ver -L altera_lnsim_ver work.pwm_module_vlg_vec_tst
 vcd file -direction pwm_module.msim.vcd
 vcd add -internal pwm_module_vlg_vec_tst/*
@@ -50,13 +43,6 @@ proc simTimestamp {} {
 after 2500 simTimestamp
 run -all
 quit -f
-
-
-
-
-
-
-
 
 
 
@@ -100,7 +86,7 @@ HEADER
 	GRID_DUTY_CYCLE = 50;
 }
 
-SIGNAL("pwm_clk")
+SIGNAL("sclk")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
@@ -210,17 +196,150 @@ SIGNAL("pwm_duty_in[0]")
 	PARENT = "pwm_duty_in";
 }
 
-TRANSITION_LIST("pwm_clk")
+SIGNAL("pwm_clk")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("parallel_enable")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("mosi")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("chip_select")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("spi_in")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 8;
+	LSB_INDEX = 0;
+	DIRECTION = OUTPUT;
+	PARENT = "";
+}
+
+SIGNAL("spi_in[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+SIGNAL("spi_in[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = OUTPUT;
+	PARENT = "spi_in";
+}
+
+TRANSITION_LIST("sclk")
 {
 	NODE
 	{
 		REPEAT = 1;
+		LEVEL 0 FOR 90.0;
+		LEVEL 1 FOR 20.0;
 		NODE
 		{
-			REPEAT = 5000;
-			LEVEL 0 FOR 0.1;
-			LEVEL 1 FOR 0.1;
+			REPEAT = 7;
+			LEVEL 0 FOR 20.0;
+			LEVEL 1 FOR 20.0;
 		}
+		LEVEL 0 FOR 610.0;
 	}
 }
 
@@ -238,9 +357,7 @@ TRANSITION_LIST("pwm_duty_in[7]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 255.0;
-		LEVEL 1 FOR 255.0;
-		LEVEL 0 FOR 490.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -249,9 +366,7 @@ TRANSITION_LIST("pwm_duty_in[6]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 255.0;
-		LEVEL 1 FOR 510.0;
-		LEVEL 0 FOR 235.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -260,8 +375,7 @@ TRANSITION_LIST("pwm_duty_in[5]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 510.0;
-		LEVEL 1 FOR 490.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -279,9 +393,7 @@ TRANSITION_LIST("pwm_duty_in[3]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 255.0;
-		LEVEL 1 FOR 510.0;
-		LEVEL 0 FOR 235.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -290,8 +402,7 @@ TRANSITION_LIST("pwm_duty_in[2]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 1 FOR 510.0;
-		LEVEL 0 FOR 490.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -309,13 +420,134 @@ TRANSITION_LIST("pwm_duty_in[0]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 1 FOR 1000.0;
+		LEVEL 0 FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("pwm_clk")
+{
+	NODE
+	{
+		REPEAT = 1;
+		NODE
+		{
+			REPEAT = 5000;
+			LEVEL 0 FOR 0.1;
+			LEVEL 1 FOR 0.1;
+		}
+	}
+}
+
+TRANSITION_LIST("parallel_enable")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("mosi")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 0 FOR 100.0;
+		LEVEL 1 FOR 60.0;
+		LEVEL 0 FOR 20.0;
+		LEVEL 1 FOR 100.0;
+		LEVEL 0 FOR 20.0;
+		LEVEL 1 FOR 80.0;
+		LEVEL 0 FOR 620.0;
+	}
+}
+
+TRANSITION_LIST("chip_select")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL 1 FOR 60.0;
+		LEVEL 0 FOR 390.0;
+		LEVEL 1 FOR 550.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
+	}
+}
+
+TRANSITION_LIST("spi_in[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL X FOR 1000.0;
 	}
 }
 
 DISPLAY_LINE
 {
-	CHANNEL = "pwm_clk";
+	CHANNEL = "pwm_out";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
 	TREE_INDEX = 0;
@@ -324,21 +556,12 @@ DISPLAY_LINE
 
 DISPLAY_LINE
 {
-	CHANNEL = "pwm_out";
+	CHANNEL = "pwm_duty_in";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
 	TREE_INDEX = 1;
 	TREE_LEVEL = 0;
-}
-
-DISPLAY_LINE
-{
-	CHANNEL = "pwm_duty_in";
-	EXPAND_STATUS = COLLAPSED;
-	RADIX = Binary;
-	TREE_INDEX = 2;
-	TREE_LEVEL = 0;
-	CHILDREN = 3, 4, 5, 6, 7, 8, 9, 10;
+	CHILDREN = 2, 3, 4, 5, 6, 7, 8, 9;
 }
 
 DISPLAY_LINE
@@ -346,9 +569,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[7]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 3;
+	TREE_INDEX = 2;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -356,9 +579,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[6]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 4;
+	TREE_INDEX = 3;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -366,9 +589,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[5]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 5;
+	TREE_INDEX = 4;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -376,9 +599,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[4]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 6;
+	TREE_INDEX = 5;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -386,9 +609,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[3]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 7;
+	TREE_INDEX = 6;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -396,9 +619,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[2]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 8;
+	TREE_INDEX = 7;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -406,9 +629,9 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[1]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 9;
+	TREE_INDEX = 8;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
 }
 
 DISPLAY_LINE
@@ -416,9 +639,144 @@ DISPLAY_LINE
 	CHANNEL = "pwm_duty_in[0]";
 	EXPAND_STATUS = COLLAPSED;
 	RADIX = Binary;
-	TREE_INDEX = 10;
+	TREE_INDEX = 9;
 	TREE_LEVEL = 1;
-	PARENT = 2;
+	PARENT = 1;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "pwm_clk";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 10;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "parallel_enable";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 11;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "chip_select";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 12;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "sclk";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 13;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "mosi";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 14;
+	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 15;
+	TREE_LEVEL = 0;
+	CHILDREN = 16, 17, 18, 19, 20, 21, 22, 23;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[7]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 16;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 17;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 18;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 19;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 20;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 21;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 22;
+	TREE_LEVEL = 1;
+	PARENT = 15;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "spi_in[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = Binary;
+	TREE_INDEX = 23;
+	TREE_LEVEL = 1;
+	PARENT = 15;
 }
 
 TIME_BAR
